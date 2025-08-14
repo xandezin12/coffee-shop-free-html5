@@ -1,0 +1,136 @@
+/* Consolidated Button System - Accessible & Optimized */
+
+/* Base Button */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* Accessibility touch target */
+  min-width: 44px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform; /* Optimize animations */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn:focus {
+  outline: 2px solid #4A90E2;
+  outline-offset: 2px;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Button Variants */
+.btn-primary {
+  background: #E89A2F;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #D4841C;
+  color: white;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #E89A2F;
+  color: #E89A2F;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #E89A2F;
+  color: white;
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Delivery Buttons */
+.btn-delivery {
+  padding: 15px 20px;
+  font-size: 16px;
+  gap: 8px;
+  margin: 4px;
+}
+
+.btn-ifood { background: #FF6B35; color: white; }
+.btn-uber { background: #00D4AA; color: white; }
+.btn-rappi { background: #DC143C; color: white; }
+.btn-whatsapp { background: #25D366; color: white; }
+
+/* Icon Buttons */
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.btn-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* Sizes */
+.btn-sm { min-height: 36px; padding: 8px 16px; font-size: 12px; }
+.btn-lg { min-height: 52px; padding: 16px 32px; font-size: 16px; }
+
+/* States */
+.btn-loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .btn { min-height: 48px; padding: 14px 20px; }
+  .btn-delivery { padding: 16px 18px; font-size: 14px; }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .btn-loading::after { animation: none; }
+}

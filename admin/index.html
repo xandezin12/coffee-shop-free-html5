@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop Admin Panel</title>
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+    <link href="../assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="admin-styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Coffee Shop Admin</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="menu-link active" data-section="dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="#menu" class="menu-link" data-section="menu"><i class="fa fa-coffee"></i> Menu Management</a></li>
+                <li><a href="#orders" class="menu-link" data-section="orders"><i class="fa fa-shopping-cart"></i> Orders</a></li>
+                <li><a href="#events" class="menu-link" data-section="events"><i class="fa fa-calendar"></i> Event Requests</a></li>
+                <li><a href="#users" class="menu-link" data-section="users"><i class="fa fa-users"></i> Users</a></li>
+                <li><a href="#settings" class="menu-link" data-section="settings"><i class="fa fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fa fa-shopping-cart"></i>
+                        <div class="stat-info">
+                            <h3 id="totalOrders">0</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa fa-calendar"></i>
+                        <div class="stat-info">
+                            <h3 id="eventRequests">0</h3>
+                            <p>Event Requests</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa fa-users"></i>
+                        <div class="stat-info">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Registered Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa fa-coffee"></i>
+                        <div class="stat-info">
+                            <h3 id="menuItems">0</h3>
+                            <p>Menu Items</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Management Section -->
+            <div id="menu" class="content-section">
+                <h2>Menu Management</h2>
+                <button class="btn btn-primary" onclick="showAddItemForm()">Add New Item</button>
+                <div id="menuItemsList" class="items-list"></div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="orders" class="content-section">
+                <h2>Orders</h2>
+                <div id="ordersList" class="items-list"></div>
+            </div>
+
+            <!-- Events Section -->
+            <div id="events" class="content-section">
+                <h2>Event Requests</h2>
+                <div id="eventsList" class="items-list"></div>
+            </div>
+
+            <!-- Users Section -->
+            <div id="users" class="content-section">
+                <h2>Users</h2>
+                <div id="usersList" class="items-list"></div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="content-section">
+                <h2>Settings</h2>
+                <div class="settings-form">
+                    <h3>Site Configuration</h3>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label>Site Title</label>
+                            <input type="text" id="siteTitle" class="form-control" value="Coffee Shop">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Email</label>
+                            <input type="email" id="contactEmail" class="form-control" value="contato@suacafeteria.com.br">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Phone</label>
+                            <input type="tel" id="contactPhone" class="form-control" value="(11) 99999-9999">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea id="address" class="form-control" rows="3">Rua das Palmeiras, 123
+São Paulo – SP</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Save Settings</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add Menu Item</h3>
+            <form id="addItemForm">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category" class="form-control" required>
+                        <option value="cafes">Cafés</option>
+                        <option value="chas">Chás</option>
+                        <option value="doces">Doces</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price (R$)</label>
+                    <input type="number" name="price" class="form-control" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Featured Item</label>
+                    <input type="checkbox" name="featured">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html>

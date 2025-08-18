@@ -9,7 +9,31 @@ class DatabaseAuth {
         this.user = JSON.parse(localStorage.getItem('user_data') || 'null');
     }
 
+    sanitizeInput(input) {
+        const div = document.createElement('div');
+        div.textContent = input;
+        return div.innerHTML;
+    }
+
     async register(userData) {
+        // Sanitize inputs
+        const sanitizedData = {
+            name: this.sanitizeInput(userData.name || ''),
+            email: userData.email || '',
+            phone: this.sanitizeInput(userData.phone || ''),
+            address: this.sanitizeInput(userData.address || ''),
+            password: userData.password || ''
+        };
+
+        // Client-side validation
+        if (!sanitizedData.name || !sanitizedData.email || !sanitizedData.password) {
+            return { success: false, error: 'Todos os campos são obrigatórios' };
+        }
+
+        if (sanitizedData.password.length < 8) {
+            return { success: false, error: 'Senha deve ter pelo menos 8 caracteres' };
+        }
+
         try {
             const response = await fetch(this.apiUrl, {
                 method: 'POST',
@@ -18,7 +42,7 @@ class DatabaseAuth {
                 },
                 body: JSON.stringify({
                     action: 'register',
-                    ...userData
+                    ...sanitizedData
                 })
             });
 
@@ -30,11 +54,21 @@ class DatabaseAuth {
                 return { success: false, error: data.error };
             }
         } catch (error) {
-            return { success: false, error: 'Network error' };
+            return { success: false, error: 'Erro de conexão' };
         }
     }
 
     async login(email, password) {
+        // Client-side validation
+        if (!email || !password) {
+            return { success: false, error: 'Email e senha são obrigatórios' };
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return { success: false, error: 'Formato de email inválido' };
+        }
+
         try {
             const response = await fetch(this.apiUrl, {
                 method: 'POST',
@@ -60,7 +94,7 @@ class DatabaseAuth {
                 return { success: false, error: data.error };
             }
         } catch (error) {
-            return { success: false, error: 'Network error' };
+            return { success: false, error: 'Erro de conexão' };
         }
     }
 
@@ -87,40 +121,70 @@ const dbAuth = new DatabaseAuth();
 window.register = async function(event) {
     event.preventDefault();
     
-    const name = document.getElementById('regName').value;
-    const email = document.getElementById('regEmail').value;
-    const phone = document.getElementById('regPhone').value;
-    const address = document.getElementById('regAddress').value;
-    const password = document.getElementById('regPassword').value;
+    const name = document.getElementById('regName')?.value || '';
+    const email = document.getElementById('regEmail')?.value || '';
+    const phone = document.getElementById('regPhone')?.value || '';
+    const address = document.getElementById('regAddress')?.value || '';
+    const password = document.getElementById('regPassword')?.value || '';
     
     const result = await dbAuth.register({
         name, email, phone, address, password
     });
     
     if (result.success) {
-        alert('Conta criada com sucesso! Faça login agora.');
-        document.getElementById('showLoginLink').click();
+        showMessage('Conta criada com sucesso! Faça login agora.', 'success');
+        document.getElementById('showLoginLink')?.click();
     } else {
-        alert('Erro: ' + result.error);
+        showMessage('Erro: ' + result.error, 'error');
     }
 };
 
 window.login = async function(event) {
     event.preventDefault();
     
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    const email = document.getElementById('loginEmail')?.value || '';
+    const password = document.getElementById('loginPassword')?.value || '';
     
     const result = await dbAuth.login(email, password);
     
     if (result.success) {
-        document.getElementById('loginModal').style.display = 'none';
+        const modal = document.getElementById('loginModal');
+        if (modal) modal.style.display = 'none';
         updateLoginButton();
-        alert('Login realizado com sucesso!');
+        showMessage('Login realizado com sucesso!', 'success');
     } else {
-        alert('Erro: ' + result.error);
+        showMessage('Erro: ' + result.error, 'error');
     }
 };
+
+// Custom message system
+function showMessage(message, type = 'info') {
+    let messageEl = document.getElementById('authMessage');
+    if (!messageEl) {
+        messageEl = document.createElement('div');
+        messageEl.id = 'authMessage';
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 10000;
+            transition: all 0.3s ease;
+        `;
+        document.body.appendChild(messageEl);
+    }
+    
+    messageEl.textContent = message;
+    messageEl.style.background = type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#3742fa';
+    messageEl.style.display = 'block';
+    
+    setTimeout(() => {
+        if (messageEl) messageEl.style.display = 'none';
+    }, 3000);
+}
 
 function updateLoginButton() {
     const loginBtn = document.getElementById('loginBtn');
@@ -143,9 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateLoginButton();
     
     // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-        dbAuth.logout();
-        updateLoginButton();
-        alert('Logout realizado com sucesso!');
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            dbAuth.logout();
+            updateLoginButton();
+            showMessage('Logout realizado com sucesso!', 'success');
+        });
+    }
 });

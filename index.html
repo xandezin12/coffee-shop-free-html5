@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="description" content="Coffee Shop - Premium coffee, teas and artisanal sweets">
 <meta name="author" content="Coffee Shop Team">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -44,6 +44,7 @@
 
 <!-- Custom CSS -->
 <link href="assets/css/styles.css" rel="stylesheet">
+<link href="assets/css/mobile-responsive.css" rel="stylesheet">
 <link href="assets/css/buttons.css" rel="stylesheet">
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 <link href="assets/css/animate-custom.css" rel="stylesheet">
@@ -58,6 +59,9 @@
 
 </head>
 <body data-target="#navbar-main">
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+  
   <!-- Loading Screen -->
   <div id="loading-screen">
     <div class="spinner"></div>
@@ -104,6 +108,7 @@
 
 <!-- ==== HEADERWRAP ==== -->
 <div id="home-section">
+<main id="main-content">
 <div id="headerwrap" name="home">
   <header class="clearfix tb"> 
  <div class="tb-cell text-center">
@@ -116,6 +121,7 @@
 </div>
 
 </div>
+</main>
 <div class="div-pattern2"></div>
 <!-- /headerwrap --> 
 
@@ -131,19 +137,19 @@
         <p class="large">Na nossa cafeteria, cada detalhe é pensado para oferecer uma experiência única. Do grão à xícara, tudo é preparado com paixão, qualidade e um toque de inovação.</p>
       </div>
       
-      <div class="col-lg-4 callout"> 
+      <div class="col-lg-4 col-md-4 col-sm-12 callout"> 
         <i class="fa fa-cubes fa-3x"></i>
         <h3>Cafés</h3>
         <p>Trabalhamos com grãos selecionados de alta qualidade, extraídos com precisão para realçar os aromas e sabores que fazem do café muito mais do que uma bebida: um ritual.</p>
       </div>
       
-      <div class="col-lg-4 callout"> 
+      <div class="col-lg-4 col-md-4 col-sm-12 callout"> 
         <i class="fa fa-flask fa-3x"></i>
         <h3>Chás</h3>
         <p>Oferecemos uma curadoria especial de chás nacionais e importados, perfeitos para quem busca equilíbrio, aroma e uma pausa tranquila no meio da correria.</p>
       </div>
       
-      <div class="col-lg-4 callout"> 
+      <div class="col-lg-4 col-md-4 col-sm-12 callout"> 
         <i class="fa fa-life-ring fa-3x"></i>
         <h3>Bolos</h3>
         <p>Receitas artesanais que combinam tradição e criatividade. Nossos bolos são feitos com ingredientes frescos e carinho, ideais para acompanhar seu café ou chá.</p>
@@ -201,28 +207,28 @@
     <div class="row" id="menu-content">
       <!-- Cafés -->
       <div class="menu-category" id="cafes">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
           <div class="menu-item featured-item">
             <h4>Espresso Especial</h4>
             <p>Blend exclusivo da casa com notas de chocolate e caramelo</p>
             <span class="menu-price">A partir de R$ 8,50</span>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
           <div class="menu-item">
             <h4>Cappuccino Cremoso</h4>
             <p>Espresso com leite vaporizado e espuma aveludada</p>
             <span class="menu-price">A partir de R$ 12,00</span>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
           <div class="menu-item">
             <h4>Latte Macchiato</h4>
             <p>Camadas perfeitas de leite, café e espuma</p>
             <span class="menu-price">A partir de R$ 13,50</span>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
           <div class="menu-item">
             <h4>Café Gelado</h4>
             <p>Refrescante e saboroso, perfeito para dias quentes</p>
@@ -298,10 +304,10 @@
 
     <!-- Delivery Apps Section -->
     <div class="row" style="margin-top: 50px; text-align: center;">
-      <div class="col-lg-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h3>Peça pelo Delivery</h3>
         <p>Nossos produtos estão disponíveis nos principais apps de entrega:</p>
-        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+        <div class="delivery-buttons" style="display: flex; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
           <a href="https://www.ifood.com.br/" class="btn btn-delivery btn-ifood" aria-label="Pedir pelo iFood">
             🍔 iFood
           </a>
@@ -357,7 +363,7 @@
       <div class="row">
 
         <!-- EXPERIÊNCIA 1 -->
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="grid overlay">
             <figure>
               <img class="img-responsive" src="assets/img/portfolio/folio01.jpg" alt="Ambiente aconchegante">
@@ -370,7 +376,7 @@
         </div>
 
         <!-- EXPERIÊNCIA 2 -->
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="grid overlay">
             <figure>
               <img class="img-responsive" src="assets/img/portfolio/folio02.jpg" alt="Barista em ação">
@@ -383,7 +389,7 @@
         </div>
 
         <!-- EXPERIÊNCIA 3 -->
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="grid overlay">
             <figure>
               <img class="img-responsive" src="assets/img/portfolio/folio03.jpg" alt="Eventos especiais">
@@ -458,7 +464,7 @@
 
     <div class="row" style="margin-top: 50px;">
       <!-- Event Types -->
-      <div class="col-md-4 text-center">
+      <div class="col-md-4 col-sm-12 text-center">
         <div class="event-card">
           <i class="fa fa-heart fa-3x" style="color: white; margin-bottom: 20px;"></i>
           <h4 style="color: white;">Casamentos</h4>
@@ -467,7 +473,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 text-center">
+      <div class="col-md-4 col-sm-12 text-center">
         <div class="event-card">
           <i class="fa fa-briefcase fa-3x" style="color: white; margin-bottom: 20px;"></i>
           <h4 style="color: white;">Corporativo</h4>
@@ -476,7 +482,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 text-center">
+      <div class="col-md-4 col-sm-12 text-center">
         <div class="event-card">
           <i class="fa fa-birthday-cake fa-3x" style="color: white; margin-bottom: 20px;"></i>
           <h4 style="color: white;">Aniversários</h4>
@@ -591,8 +597,8 @@
       </div>
 
       <!-- MEMBRO 1 -->
-      <div class="col-lg-3 centered">
-        <img class="img img-circle" src="assets/img/team/team01.jpg" height="120px" width="120px" alt="Chef Rennyl">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 centered">
+        <img class="img img-circle img-responsive" src="assets/img/team/team01.jpg" height="120px" width="120px" alt="Chef Rennyl">
         <h4><strong>Rennyl</strong></h4>
         <p>Barista-chefe com mais de 10 anos de experiência e um dom pra extrair o melhor de cada grão.</p>
         <a href="#"><i class="fa fa-twitter"></i></a> 
@@ -601,8 +607,8 @@
       </div>
 
       <!-- MEMBRO 2 -->
-      <div class="col-lg-3 centered">
-        <img class="img img-circle" src="assets/img/team/team02.jpg" height="120px" width="120px" alt="Chef Kristean">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 centered">
+        <img class="img img-circle img-responsive" src="assets/img/team/team02.jpg" height="120px" width="120px" alt="Chef Kristean">
         <h4><strong>Kristean</strong></h4>
         <p>Especialista em chás e infusões, cria combinações únicas que encantam do primeiro gole ao último aroma.</p>
         <a href="#"><i class="fa fa-twitter"></i></a> 
@@ -611,8 +617,8 @@
       </div>
 
       <!-- MEMBRO 3 -->
-      <div class="col-lg-3 centered">
-        <img class="img img-circle" src="assets/img/team/team03.jpg" height="120px" width="120px" alt="Chef Angilica">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 centered">
+        <img class="img img-circle img-responsive" src="assets/img/team/team03.jpg" height="120px" width="120px" alt="Chef Angilica">
         <h4><strong>Angilica</strong></h4>
         <p>Confeiteira criativa e detalhista. Cada bolo é uma obra de arte feita com sabor e amor.</p>
         <a href="#"><i class="fa fa-twitter"></i></a> 
@@ -621,8 +627,8 @@
       </div>
 
       <!-- MEMBRO 4 -->
-      <div class="col-lg-3 centered">
-        <img class="img img-circle" src="assets/img/team/team04.jpg" height="120px" width="120px" alt="Shannon">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 centered">
+        <img class="img img-circle img-responsive" src="assets/img/team/team04.jpg" height="120px" width="120px" alt="Shannon">
         <h4><strong>Shannon</strong></h4>
         <p>Nosso gerente de atendimento: sabe o nome de todo mundo e garante que cada cliente se sinta em casa.</p>
         <a href="#"><i class="fa fa-twitter"></i></a> 
@@ -642,7 +648,7 @@
     </div>
     
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-7 col-sm-12">
         <strong>Queremos ouvir você!</strong>
         <p>
           Tem alguma dúvida, sugestão ou elogio? Sua opinião é muito importante pra gente! Preencha o formulário abaixo e entraremos em contato o mais breve possível.
@@ -665,7 +671,7 @@
       </div>
 
       <!-- Espaço para informações de contato ou mapa -->
-      <div class="col-md-5">
+      <div class="col-md-5 col-sm-12">
         <h4>Informações de Contato</h4>
         <p>
           Rua das Palmeiras, 123<br>
@@ -716,8 +722,8 @@
 <div id="footerwrap">
   <div class="container">
     <div class="row">
-      <div class="col-md-8"> <span class="copyright">Copyright &copy; 2015. Design by <a href="http://www.webthemez.com">Webthemez</a></span> </div>
-      <div class="col-md-4">
+      <div class="col-md-8 col-sm-12 col-xs-12"> <span class="copyright">Copyright &copy; 2015. Design by <a href="http://www.webthemez.com">Webthemez</a></span> </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
         <ul class="list-inline social-buttons">
           <li><a href="#"><i class="fa fa-twitter"></i></a> </li>
           <li><a href="#"><i class="fa fa-facebook"></i></a> </li>

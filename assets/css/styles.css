@@ -1139,43 +1139,510 @@ width:100%;
 display:block;
 }
 /* ==========================================
-   MEDIA QUERIES
+   MOBILE RESPONSIVE STYLES
    ======================================== */
-@media screen and (max-width:1050px), screen and (max-device-width:1050px) {
-body .header {
-	background-attachment: scroll;
+
+/* Base responsive improvements */
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
 }
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Navigation improvements */
+.navbar-toggle {
+  display: block;
+  margin-right: 15px;
+}
+
+@media (max-width: 767px) {
+  .navbar-collapse {
+    border-top: 1px solid #E89A2F;
+    margin-top: 10px;
+  }
+  
+  .navbar-nav {
+    margin: 0;
+  }
+  
+  .navbar-nav > li {
+    float: none;
+  }
+  
+  .navbar-nav > li > a {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+}
+
+/* Header responsive */
+#headerwrap {
+  min-height: 500px;
+  padding: 80px 0 50px;
+}
+
+@media (max-width: 768px) {
+  #headerwrap {
+    min-height: 400px;
+    padding: 60px 0 40px;
+  }
+  
+  #headerwrap h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  #headerwrap p {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 30px;
+  }
+  
+  #headerwrap .icon {
+    font-size: 60px;
+    margin-top: 40px;
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #headerwrap {
+    min-height: 350px;
+    padding: 50px 0 30px;
+  }
+  
+  #headerwrap h1 {
+    font-size: 28px;
+  }
+  
+  #headerwrap p {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  
+  #headerwrap .icon {
+    font-size: 50px;
+    margin-top: 30px;
+  }
+}
+
+/* Menu responsive */
+.menu-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .menu-tab {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 14px;
+  }
+  
+  .menu-item {
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .custom-options {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .size-select, .milk-select {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menu-tab {
+    width: 80%;
+    text-align: center;
+  }
+}
+
+/* Services section responsive */
+@media (max-width: 768px) {
+  #services .callout {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  #services .fa {
+    margin-bottom: 20px;
+  }
+}
+
+/* Hero section responsive */
+.hero-section .highlight {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .hero-section .highlight .tb-cell {
+    display: block;
+    padding: 20px 0;
+  }
+  
+  .hero-section p {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 30px;
+  }
+}
+
+/* Portfolio/Gallery responsive */
+@media (max-width: 768px) {
+  .grid {
+    margin-bottom: 30px;
+  }
+  
+  .grid figure img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Events section responsive */
+@media (max-width: 768px) {
+  #events .event-card {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  #events .staff-contact {
+    margin-bottom: 30px;
+  }
+}
+
+/* Team section responsive */
+@media (max-width: 768px) {
+  #team .col-lg-3 {
+    margin-bottom: 40px;
+  }
+  
+  #team img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+/* Contact section responsive */
+@media (max-width: 768px) {
+  #contact .col-md-7,
+  #contact .col-md-5 {
+    margin-bottom: 30px;
+  }
+  
+  .contact-info {
+    text-align: center;
+  }
+}
+
+/* Modal responsive */
+@media (max-width: 768px) {
+  .event-form-content,
+  .login-content,
+  .cart-content {
+    width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .event-modal,
+  .login-modal,
+  .cart-modal {
+    padding: 20px;
+  }
+}
+
+/* Cart icon responsive */
+@media (max-width: 768px) {
+  .cart-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    top: 80px;
+    right: 20px;
+  }
+  
+  .cart-count {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+}
+
+/* User profile responsive */
+@media (max-width: 768px) {
+  #userProfile {
+    top: 60px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+  }
+}
+
+/* Delivery buttons responsive */
+.btn-delivery {
+  padding: 12px 25px;
+  margin: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-ifood {
+  background: #ea1d2c;
+  color: white;
+  border: 2px solid #ea1d2c;
+}
+
+.btn-ifood:hover {
+  background: white;
+  color: #ea1d2c;
+}
+
+.btn-whatsapp {
+  background: #25d366;
+  color: white;
+  border: 2px solid #25d366;
+}
+
+.btn-whatsapp:hover {
+  background: white;
+  color: #25d366;
+}
+
+@media (max-width: 768px) {
+  .delivery-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-delivery {
+    width: 80%;
+    max-width: 300px;
+    margin: 10px 0;
+    padding: 15px 25px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-delivery {
+    width: 90%;
+    padding: 18px 25px;
+    font-size: 16px;
+  }
+}
+
+/* Typography responsive */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 28px;
+  }
+  
+  h3 {
+    font-size: 22px;
+  }
+  
+  h4 {
+    font-size: 18px;
+  }
+  
+  p.large {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 24px;
+  }
+  
+  h3 {
+    font-size: 20px;
+  }
+  
+  h4 {
+    font-size: 16px;
+  }
+}
+
+/* Button responsive */
+@media (max-width: 768px) {
+  .btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .btn-lg {
+    padding: 15px 25px;
+    font-size: 16px;
+  }
+}
+
+/* Form responsive */
+@media (max-width: 768px) {
+  .form-control {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 15px;
+    min-height: 44px; /* Better touch targets */
+  }
+  
+  input, textarea, select {
+    font-size: 16px;
+  }
+  
+  textarea.form-control {
+    min-height: 120px;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (max-width: 768px) {
+  /* Minimum touch target size */
+  .btn, button, input[type="submit"], input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Larger tap targets for navigation */
+  .navbar-nav > li > a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Better spacing for mobile */
+  .menu-item {
+    margin-bottom: 25px;
+  }
+  
+  /* Improved modal close buttons */
+  .close-btn, .btn-icon {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+  #footerwrap {
+    text-align: center;
+  }
+  
+  #footerwrap .col-md-8,
+  #footerwrap .col-md-4 {
+    margin-bottom: 20px;
+  }
+  
+  ul.social-buttons {
+    text-align: center;
+  }
+}
+
+/* Utility classes for mobile */
+@media (max-width: 768px) {
+  .mobile-center {
+    text-align: center !important;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+  }
+  
+  .mobile-margin {
+    margin-bottom: 30px !important;
+  }
+  
+  .mobile-padding {
+    padding: 15px !important;
+  }
+  
+  .mobile-no-padding {
+    padding: 0 !important;
+  }
+}
+
+/* Improved scrolling on mobile */
+@media (max-width: 768px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent horizontal scroll */
+  .container-fluid {
+    overflow-x: hidden;
+  }
+}
+
+/* Loading screen responsive */
+@media (max-width: 768px) {
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 6px;
+  }
+}
+
+/* Landscape orientation improvements */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  #headerwrap {
+    min-height: 300px;
+    padding: 40px 0 30px;
+  }
+  
+  #headerwrap h1 {
+    font-size: 32px;
+  }
+  
+  #headerwrap .icon {
+    font-size: 40px;
+    margin-top: 20px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Optimize for retina displays */
+  .logo img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Legacy media queries (keeping for compatibility) */
+@media screen and (max-width:1050px), screen and (max-device-width:1050px) {
+  body .header {
+    background-attachment: scroll;
+  }
 }
 
 @media only screen and (min-device-width:768px) and (max-device-width : 1024px) and (orientation : portrait) {
-.header {
-	background-attachment: scroll;
-}
-}
-
-@media screen and (max-width:769px) {
-#headerwrap h1 {
-	font-size: 80px;
-}
-#headerwrap p {
-	font-size: 30px;
-	line-height: 38px;
-}
-}
-@media screen and (max-width:480px) {
-#headerwrap h1 {
-font-size: 34px;
-}
-#headerwrap p {
-margin-top:30px;
-font-size: 20px;
-}
-.navbar-nav{
-float: right !important;
-width: 100%;
-margin: 10px auto;
-}
-#team img{
-margin-top:30px;
-}
+  .header {
+    background-attachment: scroll;
+  }
 }

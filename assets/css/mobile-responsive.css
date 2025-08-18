@@ -1,0 +1,311 @@
+/* 
+ * Mobile Responsive Enhancements for Coffee Shop Website
+ * Additional mobile-specific optimizations
+ */
+
+/* Mobile-first approach */
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 767px) {
+  .navbar-brand {
+    max-width: 60%;
+  }
+  
+  .navbar-toggle {
+    padding: 8px 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .navbar-collapse {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: white;
+    margin-top: 1px;
+  }
+  
+  .navbar-nav > li > a {
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile hero section */
+@media (max-width: 767px) {
+  #headerwrap {
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center center;
+  }
+  
+  #headerwrap .btn {
+    width: 80%;
+    max-width: 300px;
+    padding: 15px 30px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile menu system */
+@media (max-width: 767px) {
+  .menu-tabs {
+    padding: 0 15px;
+  }
+  
+  .menu-tab {
+    flex: 1;
+    min-width: 120px;
+    margin: 5px;
+  }
+  
+  .menu-item h4 {
+    font-size: 18px;
+  }
+  
+  .menu-price {
+    font-size: 16px;
+  }
+}
+
+/* Mobile gallery improvements */
+@media (max-width: 767px) {
+  .grid {
+    margin-bottom: 20px;
+  }
+  
+  .grid figcaption {
+    position: static;
+    opacity: 1;
+    transform: none;
+    background: rgba(232, 154, 47, 0.9);
+    padding: 15px;
+  }
+  
+  .grid figcaption h5 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Mobile events section */
+@media (max-width: 767px) {
+  #events {
+    padding: 60px 0;
+  }
+  
+  .event-card {
+    padding: 30px 15px;
+  }
+  
+  .staff-contact {
+    margin-bottom: 25px;
+  }
+  
+  .staff-contact img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Mobile team section */
+@media (max-width: 767px) {
+  #team {
+    padding: 60px 0;
+  }
+  
+  #team .col-lg-3 {
+    margin-bottom: 30px;
+  }
+}
+
+/* Mobile contact improvements */
+@media (max-width: 767px) {
+  #contact {
+    padding: 60px 0;
+  }
+  
+  #contact .form-control {
+    margin-bottom: 15px;
+  }
+  
+  #contact .btn {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* Mobile modal improvements */
+@media (max-width: 767px) {
+  .event-modal,
+  .login-modal,
+  .cart-modal {
+    padding: 10px;
+  }
+  
+  .event-form-content,
+  .login-content,
+  .cart-content {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .close-btn {
+    font-size: 24px;
+    top: 10px;
+    right: 15px;
+  }
+}
+
+/* Mobile cart improvements */
+@media (max-width: 767px) {
+  .cart-icon {
+    bottom: 20px;
+    top: auto;
+    right: 20px;
+  }
+  
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .quantity-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+/* Mobile user profile */
+@media (max-width: 767px) {
+  #userProfile {
+    position: fixed;
+    top: auto;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
+/* Mobile typography adjustments */
+@media (max-width: 767px) {
+  .large {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  
+  .centered {
+    padding: 0 15px;
+  }
+}
+
+/* Mobile footer */
+@media (max-width: 767px) {
+  #footerwrap {
+    padding: 30px 0 20px;
+  }
+  
+  .social-buttons {
+    margin-top: 20px;
+  }
+  
+  .social-buttons li {
+    margin: 0 10px;
+  }
+}
+
+/* Touch improvements */
+@media (max-width: 767px) {
+  /* Larger touch targets */
+  .fa {
+    padding: 5px;
+  }
+  
+  /* Better button spacing */
+  .btn + .btn {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  
+  /* Improved form spacing */
+  .form-group {
+    margin-bottom: 20px;
+  }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 767px) {
+  /* Reduce animations on mobile for better performance */
+  .menu-item,
+  .grid figure,
+  .event-card {
+    transition: none;
+  }
+  
+  /* Optimize images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 767px) {
+  /* Focus indicators */
+  .btn:focus,
+  .form-control:focus,
+  a:focus {
+    outline: 2px solid #E89A2F;
+    outline-offset: 2px;
+  }
+  
+  /* Skip link for mobile */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #E89A2F;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 10000;
+  }
+  
+  .skip-link:focus {
+    top: 6px;
+  }
+}
+
+/* Print styles for mobile */
+@media print {
+  .navbar,
+  .cart-icon,
+  #userProfile,
+  .btn,
+  .event-modal,
+  .login-modal,
+  .cart-modal {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+}

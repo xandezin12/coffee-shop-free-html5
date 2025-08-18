@@ -49,7 +49,7 @@ const es = {
         subtitle: "Explora nuestro menú especial con cafés, tés y dulces artesanales. Cada artículo se prepara con amor e ingredientes seleccionados.",
         categories: {
             cafes: "☕ Cafés",
-            chas: "🍃 Tés",
+            chas: "🍃 Tes",
             doces: "🧁 Dulces"
         },
         actions: {

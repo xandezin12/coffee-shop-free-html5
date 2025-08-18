@@ -79,12 +79,12 @@ try {
     http_response_code(500);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Service temporarily unavailable']);
-    exit(1);
+    throw $e;
 } catch (PDOException $e) {
     error_log("Database connection failed: " . $e->getMessage());
     http_response_code(500);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Service temporarily unavailable']);
-    exit(1);
+    throw $e;
 }
 ?>

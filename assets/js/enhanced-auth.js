@@ -287,6 +287,7 @@ class EnhancedAuth {
             if (storedUser) {
                 const user = JSON.parse(storedUser);
                 
+                // Simple validation for demo - in production use proper hashing
                 if (user.email === email && user.password === password) {
                     this.currentUser = { ...user };
                     delete this.currentUser.password;

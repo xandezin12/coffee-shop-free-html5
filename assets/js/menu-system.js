@@ -119,18 +119,27 @@ class MenuSystem {
         this.cartTotal = this.cart.reduce((sum, item) => sum + item.price, 0);
         
         if (cartItems) {
-            cartItems.innerHTML = this.cart.map((item, index) => `
-                <div class="cart-item">
-                    <div>
-                        <strong>${item.name}</strong><br>
-                        <small>${item.size} | ${item.milk} | Qtd: ${item.quantity}</small>
+            cartItems.innerHTML = this.cart.map((item, index) => {
+                // Sanitize item data to prevent XSS
+                const safeName = String(item.name || '').replace(/[<>"'&]/g, '');
+                const safeSize = String(item.size || '').replace(/[<>"'&]/g, '');
+                const safeMilk = String(item.milk || '').replace(/[<>"'&]/g, '');
+                const safeQuantity = parseInt(item.quantity) || 0;
+                const safePrice = parseFloat(item.price) || 0;
+                
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${safeName}</strong><br>
+                            <small>${safeSize} | ${safeMilk} | Qtd: ${safeQuantity}</small>
+                        </div>
+                        <div>
+                            <span>R$ ${safePrice.toFixed(2).replace('.', ',')}</span>
+                            <button onclick="menuSystem.removeFromCart(${index})" class="remove-btn">×</button>
+                        </div>
                     </div>
-                    <div>
-                        <span>R$ ${item.price.toFixed(2).replace('.', ',')}</span>
-                        <button onclick="menuSystem.removeFromCart(${index})" class="remove-btn">×</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
         if (cartTotalElement) {
@@ -171,13 +180,13 @@ class MenuSystem {
 
     checkout() {
         if (this.cart.length === 0) {
-            alert('Seu carrinho está vazio!');
+            this.showMessage('Seu carrinho está vazio!', 'warning');
             return;
         }
         
         const currentUser = window.authSystem?.getCurrentUser();
         if (!currentUser) {
-            alert('Faça login para finalizar seu pedido!');
+            this.showMessage('Faça login para finalizar seu pedido!', 'warning');
             window.authSystem?.openLogin();
             return;
         }
@@ -186,10 +195,39 @@ class MenuSystem {
             `${item.name} (${item.size}, ${item.milk}) x${item.quantity} - R$ ${item.price.toFixed(2).replace('.', ',')}`
         ).join('\n');
         
-        alert(`Pedido confirmado!\n\nCliente: ${currentUser.name}\nEndereço: ${currentUser.address}\nTelefone: ${currentUser.phone}\n\n${orderSummary}\n\nTotal: R$ ${this.cartTotal.toFixed(2).replace('.', ',')}\n\nSeu pedido será entregue em 30-45 minutos!`);
+        this.showMessage(`Pedido confirmado! Total: R$ ${this.cartTotal.toFixed(2).replace('.', ',')}. Entrega em 30-45 minutos!`, 'success');
         
         this.clearCart();
         this.toggleCart();
+    }
+
+    showMessage(message, type = 'info') {
+        const messageEl = document.createElement('div');
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 10001;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        `;
+        
+        messageEl.textContent = message;
+        messageEl.style.background = type === 'error' ? '#dc3545' : 
+                                   type === 'success' ? '#28a745' : 
+                                   type === 'warning' ? '#ffc107' : '#007bff';
+        
+        if (type === 'warning') messageEl.style.color = '#000';
+        
+        document.body.appendChild(messageEl);
+        
+        setTimeout(() => {
+            messageEl.remove();
+        }, 3000);
     }
 
     updatePrice(selectElement) {

@@ -18,6 +18,10 @@ function logSecurity($event, $details = []) {
     if (!is_dir($logDir)) {
         mkdir($logDir, 0755, true);
     }
+    // Remove sensitive data from logs for privacy compliance
+    if (isset($details['email'])) {
+        $details['email'] = substr($details['email'], 0, 3) . '***@' . substr(strrchr($details['email'], '@'), 1);
+    }
     $log = date('Y-m-d H:i:s') . " - $event - " . json_encode($details) . " - IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . PHP_EOL;
     file_put_contents($logDir . '/security.log', $log, FILE_APPEND | LOCK_EX);
 }
@@ -25,7 +29,7 @@ function logSecurity($event, $details = []) {
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed']);
-    exit;
+    return;
 }
 
 $input = json_decode(file_get_contents('php://input'), true);

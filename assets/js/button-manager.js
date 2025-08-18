@@ -126,11 +126,13 @@ class ButtonManager {
   static createButton(text, className = 'btn-primary', options = {}) {
     const button = document.createElement('button');
     button.className = `btn ${className}`;
-    button.textContent = text;
+    // Sanitize text content to prevent XSS
+    button.textContent = String(text).replace(/[<>"'&]/g, '');
     
     if (options.icon) {
       const icon = document.createElement('i');
-      icon.className = options.icon;
+      // Sanitize icon class name
+      icon.className = String(options.icon).replace(/[<>"'&]/g, '');
       icon.setAttribute('aria-hidden', 'true');
       button.insertBefore(icon, button.firstChild);
     }

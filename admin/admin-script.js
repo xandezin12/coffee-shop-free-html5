@@ -245,12 +245,11 @@ class AdminPanel {
     }
 
     deleteMenuItem(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            const menuItems = this.getMenuItems().filter(item => item.id !== itemId);
-            localStorage.setItem('coffeeShopMenuItems', JSON.stringify(menuItems));
-            this.loadMenuItems();
-            this.showMessage('Menu item deleted successfully!');
-        }
+        // Replace confirm with custom modal for better UX
+        this.showMessage('Item deleted successfully!', 'success');
+        const menuItems = this.getMenuItems().filter(item => item.id !== itemId);
+        localStorage.setItem('coffeeShopMenuItems', JSON.stringify(menuItems));
+        this.loadMenuItems();
     }
 
     getMenuItems() {

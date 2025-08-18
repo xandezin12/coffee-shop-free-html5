@@ -128,8 +128,7 @@ const CoffeeShopConfig = {
         sessionTimeout: 24 * 60 * 60 * 1000, // 24 hours
         maxLoginAttempts: 5,
         enableCSP: true,
-        enableSecurityHeaders: true,
-        saltKey: 'coffee_shop_salt_2024'
+        enableSecurityHeaders: true
     },
 
     // Feature Flags

@@ -543,35 +543,80 @@
   </div>
 </div>
 
-<!-- Login Modal -->
+<!-- Enhanced Login Modal -->
 <div class="login-modal" id="loginModal" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
   <div class="login-content">
-    <button class="btn btn-icon" id="closeLoginBtn" aria-label="Fechar login">&times;</button>
+    <button class="btn-icon" id="closeLoginBtn" aria-label="Fechar login">&times;</button>
+    
     <div id="loginForm">
       <h3 id="loginModalTitle">Entrar na sua conta</h3>
-      <form onsubmit="login(event)">
-        <input type="email" id="loginEmail" placeholder="Seu e-mail" required>
-        <input type="password" id="loginPassword" placeholder="Sua senha" required>
-        <button type="submit" class="btn btn-primary" data-loading="true">Entrar</button>
+      <form id="loginFormElement" novalidate>
+        <div class="form-group">
+          <input type="email" id="loginEmail" placeholder="Seu e-mail" required autocomplete="email">
+          <div class="error-message" id="loginEmailError"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="password" id="loginPassword" placeholder="Sua senha" required autocomplete="current-password">
+          <button type="button" class="password-toggle" id="loginPasswordToggle" aria-label="Mostrar/ocultar senha">
+            <i class="fa fa-eye"></i>
+          </button>
+          <div class="error-message" id="loginPasswordError"></div>
+        </div>
+        
+        <button type="submit" class="login-btn" id="loginSubmitBtn">
+          <span class="btn-text">Entrar</span>
+        </button>
+        
+        <div class="success-message" id="loginSuccess"></div>
       </form>
-      <p style="text-align: center; margin-top: 20px;">
+      
+      <div class="switch-form">
         Não tem conta? <a href="#" id="showRegisterLink">Cadastre-se</a>
-      </p>
+      </div>
     </div>
     
     <div id="registerForm" style="display: none;">
       <h3 id="registerModalTitle">Criar conta</h3>
-      <form onsubmit="register(event)">
-        <input type="text" id="regName" placeholder="Seu nome" required>
-        <input type="email" id="regEmail" placeholder="Seu e-mail" required>
-        <input type="tel" id="regPhone" placeholder="Telefone" required>
-        <input type="text" id="regAddress" placeholder="Endereço" required>
-        <input type="password" id="regPassword" placeholder="Criar senha" required>
-        <button type="submit" class="btn btn-primary" data-loading="true">Cadastrar</button>
+      <form id="registerFormElement" novalidate>
+        <div class="form-group">
+          <input type="text" id="regName" placeholder="Seu nome completo" required autocomplete="name" minlength="2" maxlength="50">
+          <div class="error-message" id="regNameError"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="email" id="regEmail" placeholder="Seu e-mail" required autocomplete="email">
+          <div class="error-message" id="regEmailError"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="tel" id="regPhone" placeholder="Telefone (11) 99999-9999" required autocomplete="tel">
+          <div class="error-message" id="regPhoneError"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" id="regAddress" placeholder="Endereço completo" required autocomplete="address-line1" minlength="10" maxlength="200">
+          <div class="error-message" id="regAddressError"></div>
+        </div>
+        
+        <div class="form-group">
+          <input type="password" id="regPassword" placeholder="Criar senha (mín. 8 caracteres)" required autocomplete="new-password" minlength="8">
+          <button type="button" class="password-toggle" id="regPasswordToggle" aria-label="Mostrar/ocultar senha">
+            <i class="fa fa-eye"></i>
+          </button>
+          <div class="error-message" id="regPasswordError"></div>
+        </div>
+        
+        <button type="submit" class="login-btn" id="registerSubmitBtn">
+          <span class="btn-text">Cadastrar</span>
+        </button>
+        
+        <div class="success-message" id="registerSuccess"></div>
       </form>
-      <p style="text-align: center; margin-top: 20px;">
+      
+      <div class="switch-form">
         Já tem conta? <a href="#" id="showLoginLink">Entrar</a>
-      </p>
+      </div>
     </div>
   </div>
 </div>
@@ -746,7 +791,7 @@
 <script src="languages/pt.js"></script>
 <script src="assets/js/security-manager.js"></script>
 <script src="assets/js/language-manager.js"></script>
-<script src="assets/js/database-auth.js"></script>
+<script src="assets/js/enhanced-auth.js"></script>
 <script src="assets/js/menu-system.js"></script>
 <script src="assets/js/events-system.js"></script>
 

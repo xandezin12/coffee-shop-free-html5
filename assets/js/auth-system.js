@@ -205,7 +205,7 @@ class AuthSystem {
         
         if (loginBtn) {
             if (this.currentUser) {
-                const firstName = securityManager.escapeHtml(this.currentUser.name.split(' ')[0]);
+                const firstName = this.currentUser.name ? securityManager.escapeHtml(this.currentUser.name.split(' ')[0] || 'User') : 'User';
                 securityManager.safeSetInnerHTML(loginBtn, `👤 ${firstName}`);
                 loginBtn.onclick = () => this.toggleProfile();
                 

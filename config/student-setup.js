@@ -6,7 +6,7 @@
 // 1. REPLACE THESE WITH YOUR ACTUAL API KEYS
 const STUDENT_CONFIG = {
     // Get from: console.cloud.google.com
-    GOOGLE_MAPS_KEY: 'YOUR_API_KEY_HERE',
+    GOOGLE_MAPS_KEY: 'AIzaSyD2J13uAARWDU1HgIDeNNooVnAyr8KYoSI',
     
     // Get from: www.google.com/recaptcha/admin (choose v3)
     RECAPTCHA_KEY: 'YOUR_RECAPTCHA_KEY_HERE',

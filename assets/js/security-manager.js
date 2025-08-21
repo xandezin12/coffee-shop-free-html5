@@ -146,19 +146,20 @@ class SecurityManager {
     // Hash Password (simple client-side hashing - in production use proper server-side hashing)
     async hashPassword(password) {
         try {
+            const salt = window.coffeeShopConfig?.salt || 'default_salt_change_me';
             if (crypto && crypto.subtle) {
                 const encoder = new TextEncoder();
-                const data = encoder.encode(password + 'coffee_shop_salt_2024');
+                const data = encoder.encode(password + salt);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', data);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             } else {
-                // Fallback for browsers without crypto.subtle
-                return this.simpleHash(password + 'coffee_shop_salt_2024');
+                return this.simpleHash(password + salt);
             }
         } catch (error) {
             console.warn('Crypto API not available, using fallback hash');
-            return this.simpleHash(password + 'coffee_shop_salt_2024');
+            const salt = window.coffeeShopConfig?.salt || 'default_salt_change_me';
+            return this.simpleHash(password + salt);
         }
     }
 
@@ -318,7 +319,7 @@ class SecurityManager {
     generateFallbackToken(length) {
         const chars = '0123456789abcdef';
         let result = '';
-        for (let i = 0; i < length * 2; i++) {
+        for (let i = 0; i < length; i++) {
             result += chars[Math.floor(Math.random() * chars.length)];
         }
         return result;
@@ -326,6 +327,9 @@ class SecurityManager {
 
     // XSS Protection for dynamic content
     escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string' || unsafe === null || unsafe === undefined) {
+            return '';
+        }
         return unsafe
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
@@ -375,15 +379,17 @@ class SecurityManager {
 
     // Log security events (in production, send to server)
     logSecurityEvent(event, details = {}) {
+        const sanitizedEvent = this.escapeHtml(event);
+        const sanitizedDetails = typeof details === 'string' ? this.escapeHtml(details) : details;
+        
         const logEntry = {
             timestamp: new Date().toISOString(),
-            event: event,
-            details: details,
+            event: sanitizedEvent,
+            details: sanitizedDetails,
             userAgent: navigator.userAgent,
             url: window.location.href
         };
         
-        // In production, send to security monitoring service
         console.log('Security Event:', logEntry);
     }
 }

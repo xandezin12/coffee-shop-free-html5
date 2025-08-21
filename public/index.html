@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="description" content="Coffee Shop - Premium coffee, teas and artisanal sweets">
+<meta name="author" content="Coffee Shop Team">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Coffee Shop - Premium Coffee Experience</title>
+
+<!-- Loading Screen Styles -->
+<style>
+  #loading-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #E89A2F;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Modal Styles */
+  .event-modal, .login-modal, .language-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
+    animation: modalFadeIn 0.3s ease;
+    overflow-y: auto;
+  }
+  
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .event-form-content, .language-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+  
+  .login-content {
+    background: white;
+    margin: 20px auto;
+    padding: 0;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 420px;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    overflow: hidden;
+    animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  
+  @keyframes modalSlideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .login-header {
+    background: linear-gradient(135deg, #E89A2F 0%, #D2691E 100%);
+    padding: 25px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .login-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: headerGlow 4s ease-in-out infinite;
+  }
+  
+  @keyframes headerGlow {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+  }
+  
+  .login-logo {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .login-title {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .login-subtitle {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+  }
+  
+  #loginForm, #registerForm {
+    padding: 25px 20px;
+  }
+  
+  #loginForm h3, #registerForm h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  .register-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 25px 0;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    color: #999;
+    z-index: 2;
+  }
+  
+  .input-wrapper input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+  }
+  
+  .input-wrapper input:focus {
+    outline: none;
+    border-color: #E89A2F;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(232, 154, 47, 0.1);
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 2;
+  }
+  
+  .password-toggle:hover {
+    color: #E89A2F;
+  }
+  
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .remember-me input {
+    display: none;
+  }
+  
+  .checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .remember-me input:checked + .checkmark {
+    background: #E89A2F;
+    border-color: #E89A2F;
+  }
+  
+  .remember-me input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    color: white;
+    font-size: 12px;
+  }
+  
+  .forgot-password {
+    color: #E89A2F;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #E89A2F, #D2691E);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232, 154, 47, 0.3);
+  }
+  
+  .login-btn:active {
+    transform: translateY(0);
+  }
+  
+  .btn-loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .login-btn.loading .btn-text {
+    opacity: 0.7;
+  }
+  
+  .login-btn.loading .btn-loader {
+    display: block;
+  }
+  
+  .divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+  }
+  
+  .divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e1e5e9;
+  }
+  
+  .divider span {
+    background: white;
+    padding: 0 15px;
+    color: #999;
+    font-size: 14px;
+  }
+  
+  .social-login {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .social-btn {
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .google-btn:hover {
+    border-color: #db4437;
+    color: #db4437;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(219, 68, 55, 0.2);
+  }
+  
+  .facebook-btn:hover {
+    border-color: #4267B2;
+    color: #4267B2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(66, 103, 178, 0.2);
+  }
+  
+  .social-btn:active {
+    transform: translateY(0);
+  }
+  
+  .password-strength {
+    margin-top: 8px;
+    display: none;
+  }
+  
+  .strength-bar {
+    height: 4px;
+    background: #e1e5e9;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+  
+  .strength-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #dc3545;
+    transition: all 0.3s ease;
+  }
+  
+  .strength-text {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .password-strength.weak .strength-bar::after {
+    width: 33%;
+    background: #dc3545;
+  }
+  
+  .password-strength.medium .strength-bar::after {
+    width: 66%;
+    background: #ffc107;
+  }
+  
+  .password-strength.strong .strength-bar::after {
+    width: 100%;
+    background: #28a745;
+  }
+  
+  .terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  .terms-checkbox input {
+    display: none;
+  }
+  
+  .terms-checkbox .checkmark {
+    margin-right: 10px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  
+  .switch-form {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    margin: 0 -30px -30px;
+    border-radius: 0 0 20px 20px;
+    font-size: 14px;
+  }
+  
+  .switch-form a {
+    color: #E89A2F;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .switch-form a:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+  }
+  
+  .success-message {
+    color: #28a745;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+  }
+  
+  .btn-icon {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: rgba(0,0,0,0.1);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  
+  .btn-icon:hover {
+    background: rgba(0,0,0,0.2);
+    transform: rotate(90deg);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .login-content {
+      margin: 10px;
+      width: calc(100% - 20px);
+      max-height: calc(100vh - 20px);
+    }
+    
+    .login-header {
+      padding: 20px 15px;
+    }
+    
+    .login-logo {
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+    }
+    
+    .login-title {
+      font-size: 18px;
+    }
+    
+    #loginForm, #registerForm {
+      padding: 20px 15px;
+    }
+    
+    .input-wrapper input {
+      padding: 14px 14px 14px 42px;
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .login-btn {
+      padding: 14px;
+      font-size: 15px;
+    }
+    
+    .social-login {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    
+    .form-options {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    
+    .switch-form {
+      padding: 15px;
+      margin: 0 -15px -20px;
+    }
+    
+    .btn-icon {
+      right: 10px;
+      top: 10px;
+      width: 28px;
+      height: 28px;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .login-modal {
+      padding: 5px;
+    }
+    
+    .login-content {
+      margin: 5px;
+      width: calc(100% - 10px);
+      border-radius: 12px;
+    }
+    
+    .social-login {
+      gap: 8px;
+    }
+    
+    .social-btn {
+      padding: 12px 10px;
+      font-size: 14px;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+  }
+  
+  .language-options {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .language-option {
+    padding: 15px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .language-option:hover {
+    border-color: #E89A2F;
+    background-color: #f8f9fa;
+  }
+  
+  /* EFEITOS COOL MODERNOS */
+  
+  /* Partículas flutuantes */
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #E89A2F;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float 6s infinite linear;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+  
+  /* Efeito de typing no título */
+  .typing-effect {
+    overflow: hidden;
+    border-right: 3px solid #E89A2F;
+    white-space: nowrap;
+    animation: typing 3s steps(20) 1s both, blink 1s infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+  
+  /* Efeito glassmorphism */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hover 3D nos cards */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .card-3d:hover {
+    transform: rotateY(10deg) rotateX(10deg) translateZ(20px);
+    box-shadow: 0 20px 40px rgba(232, 154, 47, 0.3);
+  }
+  
+  /* Efeito neon */
+  .neon-glow {
+    text-shadow: 0 0 5px #E89A2F, 0 0 10px #E89A2F, 0 0 15px #E89A2F;
+    animation: neon-pulse 2s infinite alternate;
+  }
+  
+  @keyframes neon-pulse {
+    from { text-shadow: 0 0 5px #E89A2F, 0 0 10px #E89A2F, 0 0 15px #E89A2F; }
+    to { text-shadow: 0 0 10px #E89A2F, 0 0 20px #E89A2F, 0 0 30px #E89A2F; }
+  }
+  
+  /* Gradiente animado */
+  .gradient-bg {
+    background: linear-gradient(-45deg, #E89A2F, #D2691E, #FF6B35, #F7931E);
+    background-size: 400% 400%;
+    animation: gradient-shift 4s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Efeito parallax */
+  .parallax-element {
+    transform: translateZ(0);
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Loading screen melhorado */
+  #loading-screen {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .spinner {
+    border: 8px solid rgba(255,255,255,0.1);
+    border-top: 8px solid #E89A2F;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite, pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  
+  /* Efeitos de scroll */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Cursor customizado */
+  .custom-cursor {
+    cursor: none;
+  }
+  
+  .cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #E89A2F;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+  }
+  
+  .cursor-outline {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(232, 154, 47, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+  }
+  
+  /* Micro-interações */
+  .micro-bounce {
+    animation: micro-bounce 0.6s ease;
+  }
+  
+  @keyframes micro-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  /* Efeito de ondas */
+  .wave-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .wave-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .wave-effect:hover::before {
+    left: 100%;
+  }
+  
+  /* Efeito de brilho nos ícones */
+  .fa {
+    transition: all 0.3s ease;
+  }
+  
+  .fa:hover {
+    transform: scale(1.2) rotate(10deg);
+    filter: drop-shadow(0 0 10px #E89A2F);
+  }
+  
+  /* Animação de entrada suave */
+  body {
+    animation: fadeInPage 1s ease-in;
+  }
+  
+  @keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Efeito hover nos botões */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .btn:hover::before {
+    left: 100%;
+  }
+  
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+  
+  /* Efeito de zoom nas imagens */
+  img {
+    transition: transform 0.3s ease;
+  }
+  
+  img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Centralizar imagens */
+  .img-circle {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .centered img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .grid figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Animação do menu */
+  .navbar {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  /* Efeito de pulsação no logo */
+  .logo img {
+    animation: logo-pulse 3s ease-in-out infinite;
+  }
+  
+  @keyframes logo-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  /* Efeito de destaque nos preços */
+  .menu-price {
+    position: relative;
+  }
+  
+  .menu-price::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #E89A2F;
+    transition: width 0.3s ease;
+  }
+  
+  .menu-item:hover .menu-price::before {
+    width: 100%;
+  }
+  
+  /* Efeito de flutuação nos cards */
+  .callout {
+    animation: float-gentle 6s ease-in-out infinite;
+  }
+  
+  .callout:nth-child(2) {
+    animation-delay: -2s;
+  }
+  
+  .callout:nth-child(3) {
+    animation-delay: -4s;
+  }
+  
+  @keyframes float-gentle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Efeito de texto brilhante */
+  h2 {
+    background: linear-gradient(45deg, #E89A2F, #D2691E, #E89A2F);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-text 3s ease infinite;
+  }
+  
+  @keyframes gradient-text {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  @keyframes profileSlideIn {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  /* Delivery Section Animations */
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
+  
+  .delivery-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+  }
+  
+  .delivery-card:hover .card-shine {
+    left: 100%;
+  }
+  
+  .delivery-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+</style>
+
+<!-- Bootstrap core CSS -->
+<link href="assets/css/bootstrap.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="assets/css/styles.css" rel="stylesheet">
+<link href="assets/css/mobile-responsive.css" rel="stylesheet">
+<link href="assets/css/buttons.css" rel="stylesheet">
+<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+<link href="assets/css/animate-custom.css" rel="stylesheet">
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --> 
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body data-target="#navbar-main">
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+  
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- Partículas flutuantes -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Cursor customizado -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+  
+  <script>
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+      }
+    });
+  </script>
+
+<div id="navbar-main">
+  
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+	 
+      <div class="navbar-header">
+	   <div class="pull-left logo">
+        <a class="" href="#home"><img src="assets/img/logo.png" alt="Coffee Shop Logo" /></a>
+       </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+        </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav pull-right">
+          <li><a href="#home-section" class="smoothScroll">bem vindo</a></li>
+          <li><a href="#services" class="smoothScroll">serviços</a></li>
+          <li><a href="#menu" class="smoothScroll">menu</a></li>
+          <li><a href="#portfolio" class="smoothScroll">especial</a></li>
+          <li><a href="#events" class="smoothScroll">eventos</a></li>
+          <li><a href="#team" class="smoothScroll">nosso time</a></li>
+          <li><a href="#contact" class="smoothScroll">contato</a></li>
+          <li><button class="btn btn-secondary btn-sm" id="languageBtn" aria-label="Selecionar idioma">🌐 Idioma</button></li>
+          <li><button class="btn btn-secondary btn-sm" id="loginBtn" aria-label="User login"><i class="fa fa-user"></i> Login</button></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse --> 
+    </div>
+  </div>
+</div>
+
+
+<!-- ==== HEADERWRAP ==== -->
+<div id="home-section">
+<main id="main-content">
+<div id="headerwrap" name="home">
+  <header class="clearfix tb"> 
+ <div class="tb-cell text-center">
+ <i class="fa fa-heart-o icon"></i>
+    <h1 class="neon-glow typing-effect">cafezin - é dahora</h1>
+    <p class="scroll-reveal">café faz mó bem, melhora meu dia!!! </p>
+    <a href="#portfolio" class="smoothScroll btn btn-primary btn-lg" aria-label="Ver especial do dia">especial do dia</a> 
+	</div>
+	</header>
+</div>
+
+</div>
+</main>
+<div class="div-pattern2"></div>
+<!-- /headerwrap --> 
+
+
+
+<!-- ==== SERVICES ==== -->
+<div id="services" name="services">
+  <div class="container">
+    <div class="row">
+      <h2 class="centered">O que oferecemos</h2>
+      <hr>
+      <div class="col-lg-8 col-lg-offset-2">
+        <p class="large">Na nossa cafeteria, cada detalhe é pensado para oferecer uma experiência única. Do grão à xícara, tudo é preparado com paixão, qualidade e um toque de inovação.</p>
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-12 callout card-3d glass-effect wave-effect scroll-reveal"> 
+        <i class="fa fa-cubes fa-3x"></i>
+        <h3>Cafés</h3>
+        <p>Trabalhamos com grãos selecionados de alta qualidade, extraídos com precisão para realçar os aromas e sabores que fazem do café muito mais do que uma bebida: um ritual.</p>
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-12 callout card-3d glass-effect wave-effect scroll-reveal"> 
+        <i class="fa fa-flask fa-3x"></i>
+        <h3>Chás</h3>
+        <p>Oferecemos uma curadoria especial de chás nacionais e importados, perfeitos para quem busca equilíbrio, aroma e uma pausa tranquila no meio da correria.</p>
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-12 callout card-3d glass-effect wave-effect scroll-reveal"> 
+        <i class="fa fa-life-ring fa-3x"></i>
+        <h3>Bolos</h3>
+        <p>Receitas artesanais que combinam tradição e criatividade. Nossos bolos são feitos com ingredientes frescos e carinho, ideais para acompanhar seu café ou chá.</p>
+      </div>
+      
+    </div>
+    <!-- row --> 
+  </div>
+</div>
+<!-- container --> 
+<section class="hero-section section gradient-bg">  
+  <div class="container">
+      <div class="highlight tb">
+          <div class="tb-cell">
+              <p class="scroll-reveal">
+                  Muito mais que uma cafeteria — somos um ponto de encontro para quem valoriza sabor, aconchego e boas conversas. <br>
+                  Vem descobrir o aroma do seu novo lugar favorito.
+              </p>
+          </div>
+          <div class="links tb-cell">
+              <div class="reservation-link">
+                  <button class="btn btn-glass wave-effect micro-bounce" aria-label="Reservar mesa">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> RESERVE SUA MESA
+                  </button> 
+              </div> 
+          </div>
+      </div>
+  </div>
+</section>
+
+	<div class="div-pattern"></div>
+
+<!-- container --> 
+<!-- ==== MENU INTERATIVO ==== -->
+<div id="menu" name="menu" style="background: #f8f9fa; padding: 100px 0;">
+  <div class="container">
+    <div class="row">
+      <h2 class="centered">Nosso Menu</h2>
+      <hr>
+      <div class="col-lg-8 col-lg-offset-2 centered">
+        <p class="large">
+          Explore nosso cardápio especial com cafés, chás e doces artesanais. Cada item é preparado com amor e ingredientes selecionados.
+        </p>
+      </div>
+    </div>
+
+    <!-- Menu Categories -->
+    <div class="menu-tabs">
+      <button class="menu-tab active" data-category="cafes" role="tab" aria-selected="true" aria-controls="cafes">☕ Cafés</button>
+      <button class="menu-tab" data-category="chas" role="tab" aria-selected="false" aria-controls="chas">🍃 Chás</button>
+      <button class="menu-tab" data-category="doces" role="tab" aria-selected="false" aria-controls="doces">🧁 Doces</button>
+    </div>
+
+    <!-- Menu Items -->
+    <div class="row" id="menu-content">
+      <!-- Cafés -->
+      <div class="menu-category" id="cafes">
+        <div class="col-md-6 col-sm-12">
+          <div class="menu-item featured-item">
+            <h4>Espresso Especial</h4>
+            <p>Blend exclusivo da casa com notas de chocolate e caramelo</p>
+            <span class="menu-price">A partir de R$ 8,50</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="menu-item">
+            <h4>Cappuccino Cremoso</h4>
+            <p>Espresso com leite vaporizado e espuma aveludada</p>
+            <span class="menu-price">A partir de R$ 12,00</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="menu-item">
+            <h4>Latte Macchiato</h4>
+            <p>Camadas perfeitas de leite, café e espuma</p>
+            <span class="menu-price">A partir de R$ 13,50</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="menu-item">
+            <h4>Café Gelado</h4>
+            <p>Refrescante e saboroso, perfeito para dias quentes</p>
+            <span class="menu-price">A partir de R$ 10,00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chás -->
+      <div class="menu-category" id="chas" style="display: none;">
+        <div class="col-md-6">
+          <div class="menu-item">
+            <h4>Chá de Camomila</h4>
+            <p>Relaxante e aromático, ideal para momentos de paz</p>
+            <span class="menu-price">A partir de R$ 7,00</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="menu-item featured-item">
+            <h4>Chá Verde Premium</h4>
+            <p>Antioxidante natural com sabor suave e refrescante</p>
+            <span class="menu-price">A partir de R$ 9,50</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="menu-item">
+            <h4>Chá de Ervas</h4>
+            <p>Mistura especial de ervas medicinais</p>
+            <span class="menu-price">R$ 8,00</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="menu-item">
+            <h4>Chá Gelado Frutas Vermelhas</h4>
+            <p>Refrescante blend com sabor de frutas vermelhas</p>
+            <span class="menu-price">R$ 11,00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doces -->
+      <div class="menu-category" id="doces" style="display: none;">
+        <div class="col-md-6">
+          <div class="menu-item">
+            <h4>Bolo de Chocolate</h4>
+            <p>Massa fofinha com cobertura de chocolate belga</p>
+            <span class="menu-price">R$ 15,00</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="menu-item featured-item">
+            <h4>Bolo de Cenoura</h4>
+            <p>Tradicional bolo caseiro com cobertura de chocolate</p>
+            <span class="menu-price">R$ 12,50</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="menu-item">
+            <h4>Cookies Artesanais</h4>
+            <p>Crocantes por fora, macios por dentro (3 unidades)</p>
+            <span class="menu-price">R$ 9,00</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="menu-item">
+            <h4>Torta de Limão</h4>
+            <p>Cremosa e refrescante, com merengue dourado</p>
+            <span class="menu-price">R$ 16,50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhanced Delivery Section -->
+    <div class="delivery-section" style="background: linear-gradient(135deg, #E89A2F 0%, #D2691E 100%); margin: 50px -15px 0; padding: 60px 15px; border-radius: 20px; position: relative; overflow: hidden;">
+      <div class="delivery-bg-pattern" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>'); opacity: 0.3;"></div>
+      
+      <div class="row" style="position: relative; z-index: 2;">
+        <div class="col-lg-12 text-center">
+          <div class="delivery-icon" style="font-size: 60px; margin-bottom: 20px; animation: bounce 2s infinite;">
+            🚚
+          </div>
+          <h3 style="color: white; font-size: 32px; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Delivery Rápido</h3>
+          <p style="color: rgba(255,255,255,0.9); font-size: 18px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Receba nossos cafés, chás e doces fresquinhos na sua casa! Entrega em até 30 minutos.</p>
+          
+          <div class="delivery-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 800px; margin: 0 auto;">
+            
+            <!-- iFood Card -->
+            <div class="delivery-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.3s ease; position: relative; overflow: hidden;">
+              <div class="card-shine" style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(45deg); transition: all 0.6s ease;"></div>
+              <div style="font-size: 40px; margin-bottom: 15px;">🍔</div>
+              <h4 style="color: #ea1d2c; font-weight: bold; margin-bottom: 10px;">iFood</h4>
+              <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Maior plataforma de delivery do Brasil</p>
+              <div class="delivery-features" style="margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px; font-size: 12px; color: #888;">
+                  <span style="color: #28a745; margin-right: 8px;">✓</span> Entrega em 30-45min
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 8px; font-size: 12px; color: #888;">
+                  <span style="color: #28a745; margin-right: 8px;">✓</span> Acompanhe em tempo real
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: #888;">
+                  <span style="color: #28a745; margin-right: 8px;">✓</span> Pagamento no app
+                </div>
+              </div>
+              <a href="https://www.ifood.com.br/" class="delivery-btn" style="display: block; background: #ea1d2c; color: white; padding: 12px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s ease; position: relative; z-index: 2;">Pedir Agora</a>
+            </div>
+            
+            <!-- WhatsApp Card -->
+            <div class="delivery-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.3s ease; position: relative; overflow: hidden;">
+              <div class="card-shine" style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(45deg); transition: all 0.6s ease;"></div>
+              <div style="font-size: 40px; margin-bottom: 15px;">📱</div>
+              <h4 style="color: #25d366; font-weight: bold; margin-bottom: 10px;">WhatsApp</h4>
+              <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Atendimento direto e personalizado</p>
+              <div class="delivery-features" style="margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px; font-size: 12px; color: #888;">
+                  <span style="color: #28a745; margin-right: 8px;">✓</span> Atendimento humano
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 8px; font-size: 12px; color: #888;">
+                  <span style="color: #28a745; margin-right: 8px;">✓</span> Pedidos personalizados
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px; color: #888;">
+                  <span style="color: #28a745; margin-right: 8px;">✓</span> Sem taxa de app
+                </div>
+              </div>
+              <a href="https://wa.me/5511999999999?text=Olá! Gostaria de fazer um pedido" class="delivery-btn" style="display: block; background: #25d366; color: white; padding: 12px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s ease; position: relative; z-index: 2;">Chamar no Zap</a>
+            </div>
+            
+          </div>
+          
+          <!-- Delivery Info -->
+          <div class="delivery-info" style="margin-top: 40px; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center;">
+              <div>
+                <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+                <div style="color: white; font-weight: bold;">Entrega Rápida</div>
+                <div style="color: rgba(255,255,255,0.8); font-size: 14px;">30-45 minutos</div>
+              </div>
+              <div>
+                <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                <div style="color: white; font-weight: bold;">Área de Entrega</div>
+                <div style="color: rgba(255,255,255,0.8); font-size: 14px;">Até 5km da loja</div>
+              </div>
+              <div>
+                <div style="font-size: 24px; margin-bottom: 8px;">💳</div>
+                <div style="color: white; font-weight: bold;">Formas de Pagamento</div>
+                <div style="color: rgba(255,255,255,0.8); font-size: 14px;">Cartão, PIX, Dinheiro</div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==== ABOUT ====
+<div id="about" name="about">
+  <div class="container">
+    <div class="row white">
+      <h2 class="centered">Sobre Nós</h2>
+      <hr>
+      <div class="col-md-6"> 
+        <img class="img-responsive" src="assets/img/about/about1.jpg" alt="Interior da cafeteria"> 
+      </div>
+      <div class="col-md-6">
+        <h3>Quem somos</h3>
+        <p>
+          Somos apaixonados por café, sabor e boas experiências. Nossa loja nasceu do desejo de criar um espaço onde cada xícara conta uma história — da origem dos grãos ao cuidado no preparo. Mais que uma cafeteria, somos um refúgio urbano feito pra quem valoriza qualidade e aconchego.
+        </p>
+
+        <h3>Por que escolher a gente?</h3>
+        <p>
+          Porque aqui você encontra mais do que bebidas incríveis: encontra um atendimento atencioso, um ambiente acolhedor e uma curadoria de sabores que surpreende a cada visita. Tudo pensado pra você se sentir em casa — ou melhor ainda.
+        </p>
+      </div>
+    </div>
+    <!-- row --> 
+  </div>
+</div>
+-->
+
+<!-- ==== EXPERIÊNCIA NA LOJA ==== -->
+<div id="portfolio" name="portfolio">
+  <div class="container">
+    <div class="row">
+      <h2 class="centered">Experiência na Loja</h2>
+      <hr>
+      <div class="col-lg-8 col-lg-offset-2 centered">
+        <p class="large">
+          Venha viver momentos únicos na nossa cafeteria física. Cada detalhe foi pensado para criar uma atmosfera acolhedora e inspiradora.
+        </p>
+      </div>
+    </div>
+
+    <!-- GALERIA DE PRODUTOS -->
+    <div class="container">
+      <div class="row">
+
+        <!-- EXPERIÊNCIA 1 -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="grid overlay">
+            <figure>
+              <img class="img-responsive" src="assets/img/portfolio/folio01.jpg" alt="Ambiente aconchegante">
+              <figcaption>
+                <h5>Ambiente Aconchegante</h5>
+                <a data-toggle="modal" href="#modal01" class="btn btn-default">Ver mais</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- EXPERIÊNCIA 2 -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="grid overlay">
+            <figure>
+              <img class="img-responsive" src="assets/img/portfolio/folio02.jpg" alt="Barista em ação">
+              <figcaption>
+                <h5>Arte do Barista</h5>
+                <a data-toggle="modal" href="#modal02" class="btn btn-default">Ver mais</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- EXPERIÊNCIA 3 -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="grid overlay">
+            <figure>
+              <img class="img-responsive" src="assets/img/portfolio/folio03.jpg" alt="Eventos especiais">
+              <figcaption>
+                <h5>Eventos Especiais</h5>
+                <a data-toggle="modal" href="#modal03" class="btn btn-default">Ver mais</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEGUNDA LINHA -->
+      <div class="row">
+        <!-- PRODUTO 4 -->
+        <div class="col-md-4">
+          <div class="grid overlay">
+            <figure>
+              <img class="img-responsive" src="assets/img/portfolio/folio04.jpg" alt="Chá de ervas">
+              <figcaption>
+                <h5>Chá de Ervas</h5>
+                <a data-toggle="modal" href="#modal04" class="btn btn-default">Ver detalhes</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- PRODUTO 5 -->
+        <div class="col-md-4">
+          <div class="grid overlay">
+            <figure>
+              <img class="img-responsive" src="assets/img/portfolio/folio05.jpg" alt="Cookies artesanais">
+              <figcaption>
+                <h5>bolo floreta negra</h5>
+                <a data-toggle="modal" href="#modal05" class="btn btn-default">Ver detalhes</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- PRODUTO 6 -->
+        <div class="col-md-4">
+          <div class="grid overlay">
+            <figure>
+              <img class="img-responsive" src="assets/img/portfolio/folio06.jpg" alt="Bolo de chocolate">
+              <figcaption>
+                <h5>latte macchiato</h5>
+                <a data-toggle="modal" href="#modal06" class="btn btn-default">Ver detalhes</a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ==== EVENTOS ESPECIAIS ==== -->
+<div id="events" name="events" style="background: #E89A2F; padding: 100px 0; color: white;">
+  <div class="container">
+    <div class="row">
+      <h2 class="centered" style="color: white;">Eventos Especiais</h2>
+      <hr style="background: white;">
+      <div class="col-lg-8 col-lg-offset-2 centered">
+        <p class="large" style="color: white;">
+          Planejando um evento especial? Nossa equipe está pronta para criar experiências únicas com cardápios personalizados para casamentos, corporativo, aniversários e muito mais!
+        </p>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 50px;">
+      <!-- Event Types -->
+      <div class="col-md-4 col-sm-12 text-center">
+        <div class="event-card">
+          <i class="fa fa-heart fa-3x" style="color: white; margin-bottom: 20px;"></i>
+          <h4 style="color: white;">Casamentos</h4>
+          <p>Cardápio especial para o seu dia mais importante</p>
+          <button class="btn btn-secondary" data-event="Casamento" aria-label="Solicitar orçamento para casamento">Solicitar Orçamento</button>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-12 text-center">
+        <div class="event-card">
+          <i class="fa fa-briefcase fa-3x" style="color: white; margin-bottom: 20px;"></i>
+          <h4 style="color: white;">Corporativo</h4>
+          <p>Coffee breaks e eventos empresariais</p>
+          <button class="btn btn-secondary" data-event="Corporativo" aria-label="Solicitar orçamento para evento corporativo">Solicitar Orçamento</button>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-12 text-center">
+        <div class="event-card">
+          <i class="fa fa-birthday-cake fa-3x" style="color: white; margin-bottom: 20px;"></i>
+          <h4 style="color: white;">Aniversários</h4>
+          <p>Celebrações especiais com sabor único</p>
+          <button class="btn btn-secondary" data-event="Aniversário" aria-label="Solicitar orçamento para aniversário">Solicitar Orçamento</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Staff Contact -->
+    <div class="row" style="margin-top: 60px; background: rgba(255,255,255,0.1); padding: 40px; border-radius: 15px;">
+      <h3 class="centered" style="color: white; margin-bottom: 30px;">Fale Diretamente com Nossa Equipe</h3>
+      
+      <div class="col-md-4 text-center">
+        <div class="staff-contact">
+          <img src="assets/img/team/team01.jpg" class="img-circle" style="width: 80px; height: 80px; margin-bottom: 15px;">
+          <h5 style="color: white;">Rennyl - Gerente</h5>
+          <p><i class="fa fa-whatsapp"></i> (11) 99999-1111</p>
+          <button class="btn btn-secondary btn-sm" data-staff="Rennyl" data-phone="11999991111" aria-label="Contatar Rennyl via WhatsApp">Contatar</button>
+        </div>
+      </div>
+
+      <div class="col-md-4 text-center">
+        <div class="staff-contact">
+          <img src="assets/img/team/team02.jpg" class="img-circle" style="width: 80px; height: 80px; margin-bottom: 15px;">
+          <h5 style="color: white;">Kristean - Eventos</h5>
+          <p><i class="fa fa-whatsapp"></i> (11) 99999-2222</p>
+          <button class="btn btn-secondary btn-sm" data-staff="Kristean" data-phone="11999992222" aria-label="Contatar Kristean via WhatsApp">Contatar</button>
+        </div>
+      </div>
+
+      <div class="col-md-4 text-center">
+        <div class="staff-contact">
+          <img src="assets/img/team/team04.jpg" class="img-circle" style="width: 80px; height: 80px; margin-bottom: 15px;">
+          <h5 style="color: white;">Shannon - Atendimento</h5>
+          <p><i class="fa fa-whatsapp"></i> (11) 99999-3333</p>
+          <button class="btn btn-secondary btn-sm" data-staff="Shannon" data-phone="11999993333" aria-label="Contatar Shannon via WhatsApp">Contatar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Event Form Modal -->
+<div class="event-modal" id="eventModal" role="dialog" aria-labelledby="eventModalTitle" aria-hidden="true">
+  <div class="event-form-content">
+    <button class="btn btn-icon" id="closeEventBtn" aria-label="Fechar formulário">&times;</button>
+    <h3 id="eventModalTitle">Solicitar Orçamento - <span id="eventType"></span></h3>
+    <form id="eventForm">
+      <input type="text" placeholder="Seu nome" required>
+      <input type="email" placeholder="Seu e-mail" required>
+      <input type="tel" placeholder="Telefone" required>
+      <input type="date" placeholder="Data do evento" required>
+      <input type="number" placeholder="Número de pessoas" min="10" required>
+      <textarea placeholder="Descreva seu evento e necessidades especiais..." rows="4" required></textarea>
+      <button type="submit" class="btn btn-primary btn-lg" data-loading="true">Enviar Solicitação</button>
+    </form>
+  </div>
+</div>
+
+<!-- Enhanced Login Modal -->
+<div class="login-modal" id="loginModal" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+  <div class="login-content">
+    <button class="btn-icon" id="closeLoginBtn" aria-label="Fechar login">&times;</button>
+    
+    <!-- Login Header -->
+    <div class="login-header">
+      <div class="login-logo">
+        <i class="fa fa-coffee"></i>
+      </div>
+      <h2 class="login-title">Coffee Shop</h2>
+      <p class="login-subtitle">Sua conta, seus sabores favoritos</p>
+    </div>
+    
+    <div id="loginForm">
+      <h3 id="loginModalTitle">Entrar na sua conta</h3>
+      <form id="loginFormElement" novalidate>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-envelope input-icon"></i>
+            <input type="email" id="loginEmail" placeholder="Seu e-mail" required autocomplete="email">
+          </div>
+          <div class="error-message" id="loginEmailError"></div>
+        </div>
+        
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-lock input-icon"></i>
+            <input type="password" id="loginPassword" placeholder="Sua senha" required autocomplete="current-password">
+            <button type="button" class="password-toggle" id="loginPasswordToggle" aria-label="Mostrar/ocultar senha">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-message" id="loginPasswordError"></div>
+        </div>
+        
+        <div class="form-options">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe">
+            <span class="checkmark"></span>
+            Lembrar de mim
+          </label>
+          <a href="#" class="forgot-password">Esqueci minha senha</a>
+        </div>
+        
+        <button type="submit" class="login-btn" id="loginSubmitBtn">
+          <span class="btn-text">Entrar</span>
+          <div class="btn-loader"></div>
+        </button>
+        
+        <div class="divider">
+          <span>ou</span>
+        </div>
+        
+        <div class="social-login">
+          <button type="button" class="social-btn google-btn">
+            <i class="fa fa-google"></i>
+            Entrar com Google
+          </button>
+          <button type="button" class="social-btn facebook-btn">
+            <i class="fa fa-facebook"></i>
+            Entrar com Facebook
+          </button>
+        </div>
+        
+
+        
+        <div class="success-message" id="loginSuccess"></div>
+      </form>
+      
+      <div class="switch-form">
+        Não tem conta? <a href="#" id="showRegisterLink">Cadastre-se grátis</a>
+      </div>
+    </div>
+    
+    <div id="registerForm" style="display: none;">
+      <h3 id="registerModalTitle">Criar conta</h3>
+      <p class="register-subtitle">Junte-se à nossa comunidade coffee lover</p>
+      
+      <form id="registerFormElement" novalidate>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-user input-icon"></i>
+            <input type="text" id="regName" placeholder="Seu nome completo" required autocomplete="name" minlength="2" maxlength="50">
+          </div>
+          <div class="error-message" id="regNameError"></div>
+        </div>
+        
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-envelope input-icon"></i>
+            <input type="email" id="regEmail" placeholder="Seu e-mail" required autocomplete="email">
+          </div>
+          <div class="error-message" id="regEmailError"></div>
+        </div>
+        
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-phone input-icon"></i>
+            <input type="tel" id="regPhone" placeholder="Telefone (11) 99999-9999" required autocomplete="tel">
+          </div>
+          <div class="error-message" id="regPhoneError"></div>
+        </div>
+        
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-map-marker input-icon"></i>
+            <input type="text" id="regAddress" placeholder="Endereço completo" required autocomplete="address-line1" minlength="10" maxlength="200">
+          </div>
+          <div class="error-message" id="regAddressError"></div>
+        </div>
+        
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="fa fa-lock input-icon"></i>
+            <input type="password" id="regPassword" placeholder="Criar senha (mín. 8 caracteres)" required autocomplete="new-password" minlength="8">
+            <button type="button" class="password-toggle" id="regPasswordToggle" aria-label="Mostrar/ocultar senha">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
+          <div class="password-strength" id="passwordStrength">
+            <div class="strength-bar"></div>
+            <span class="strength-text">Força da senha</span>
+          </div>
+          <div class="error-message" id="regPasswordError"></div>
+        </div>
+        
+        <div class="form-group">
+          <label class="terms-checkbox">
+            <input type="checkbox" id="acceptTerms" required>
+            <span class="checkmark"></span>
+            Aceito os <a href="#" target="_blank">termos de uso</a> e <a href="#" target="_blank">política de privacidade</a>
+          </label>
+        </div>
+        
+        <button type="submit" class="login-btn" id="registerSubmitBtn">
+          <span class="btn-text">Criar conta</span>
+          <div class="btn-loader"></div>
+        </button>
+        
+        <div class="success-message" id="registerSuccess"></div>
+      </form>
+      
+      <div class="switch-form">
+        Já tem conta? <a href="#" id="showLoginLink">Entrar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enhanced User Profile Display -->
+<div id="userProfile" style="display: none; position: fixed; top: 70px; right: 20px; background: white; padding: 18px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 9999; min-width: 240px; max-width: 280px; animation: profileSlideIn 0.3s ease;">
+  <div style="display: flex; align-items: center; margin-bottom: 12px;">
+    <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #E89A2F, #D2691E); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 10px; font-size: 14px;" id="userAvatar"></div>
+    <div style="flex: 1; min-width: 0;">
+      <h5 id="userName" style="margin: 0; color: #333; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h5>
+      <p id="userEmail" style="margin: 0; font-size: 11px; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+    </div>
+  </div>
+  <div style="border-top: 1px solid #eee; padding-top: 12px;">
+    <button style="width: 100%; padding: 8px 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #666; cursor: pointer; margin-bottom: 6px; font-size: 12px; transition: all 0.2s ease;" onclick="alert('Perfil em desenvolvimento')" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'"><i class="fa fa-user" style="margin-right: 6px;"></i> Meu Perfil</button>
+    <button style="width: 100%; padding: 8px 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 6px; color: #666; cursor: pointer; margin-bottom: 6px; font-size: 12px; transition: all 0.2s ease;" onclick="alert('Pedidos em desenvolvimento')" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'"><i class="fa fa-shopping-bag" style="margin-right: 6px;"></i> Meus Pedidos</button>
+    <button class="btn btn-secondary btn-sm" id="logoutBtn" aria-label="Fazer logout" style="width: 100%; margin-top: 8px; font-size: 12px; padding: 8px;"><i class="fa fa-sign-out" style="margin-right: 6px;"></i> Sair</button>
+  </div>
+</div>
+
+<!-- Language Selection Modal -->
+<div class="language-modal" id="languageModal" role="dialog" aria-labelledby="languageModalTitle" aria-hidden="true">
+  <div class="language-content">
+    <button class="btn-icon" id="closeLanguageBtn" aria-label="Fechar seleção de idioma">&times;</button>
+    <h3 id="languageModalTitle">Selecionar Idioma / Select Language</h3>
+    <div class="language-options">
+      <button class="language-option" data-lang="pt" aria-label="Português">
+        🇧🇷 Português
+      </button>
+      <button class="language-option" data-lang="en" aria-label="English">
+        🇺🇸 English
+      </button>
+      <button class="language-option" data-lang="es" aria-label="Español">
+        🇪🇸 Español
+      </button>
+      <button class="language-option" data-lang="fr" aria-label="Français">
+        🇫🇷 Français
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==== EQUIPE ==== -->
+<div id="team" name="team">
+  <div class="container">
+    <div class="row centered">
+      <h2 class="centered">Conheça Nosso Time</h2>
+      <hr>
+      <div class="col-lg-8 col-lg-offset-2 centered">
+        <p>
+          Por trás de cada xícara servida, existe uma equipe apaixonada por sabores, hospitalidade e boas experiências. Conheça quem dá alma à nossa cafeteria.
+        </p>
+        <br/>
+      </div>
+
+      <!-- MEMBRO 1 -->
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center">
+        <img class="img img-circle img-responsive" src="assets/img/team/team01.jpg" style="width: 120px; height: 120px; margin: 0 auto 20px auto; display: block;" alt="Chef Rennyl">
+        <h4><strong>Rennyl</strong></h4>
+        <p>Barista-chefe com mais de 10 anos de experiência e um dom pra extrair o melhor de cada grão.</p>
+        <a href="#"><i class="fa fa-twitter"></i></a> 
+        <a href="#"><i class="fa fa-facebook"></i></a> 
+        <a href="#"><i class="fa fa-linkedin"></i></a> 
+      </div>
+
+      <!-- MEMBRO 2 -->
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center">
+        <img class="img img-circle img-responsive" src="assets/img/team/team02.jpg" style="width: 120px; height: 120px; margin: 0 auto 20px auto; display: block;" alt="Chef Kristean">
+        <h4><strong>Kristean</strong></h4>
+        <p>Especialista em chás e infusões, cria combinações únicas que encantam do primeiro gole ao último aroma.</p>
+        <a href="#"><i class="fa fa-twitter"></i></a> 
+        <a href="#"><i class="fa fa-facebook"></i></a> 
+        <a href="#"><i class="fa fa-linkedin"></i></a> 
+      </div>
+
+      <!-- MEMBRO 3 -->
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center">
+        <img class="img img-circle img-responsive" src="assets/img/team/team03.jpg" style="width: 120px; height: 120px; margin: 0 auto 20px auto; display: block;" alt="Chef Angilica">
+        <h4><strong>Angilica</strong></h4>
+        <p>Confeiteira criativa e detalhista. Cada bolo é uma obra de arte feita com sabor e amor.</p>
+        <a href="#"><i class="fa fa-twitter"></i></a> 
+        <a href="#"><i class="fa fa-facebook"></i></a> 
+        <a href="#"><i class="fa fa-linkedin"></i></a> 
+      </div>
+
+      <!-- MEMBRO 4 -->
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-center">
+        <img class="img img-circle img-responsive" src="assets/img/team/team04.jpg" style="width: 120px; height: 120px; margin: 0 auto 20px auto; display: block;" alt="Shannon">
+        <h4><strong>Shannon</strong></h4>
+        <p>Nosso gerente de atendimento: sabe o nome de todo mundo e garante que cada cliente se sinta em casa.</p>
+        <a href="#"><i class="fa fa-twitter"></i></a> 
+        <a href="#"><i class="fa fa-facebook"></i></a> 
+        <a href="#"><i class="fa fa-linkedin"></i></a> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==== CONTATO ==== -->
+<div id="contact" name="contact">
+  <div class="container">
+    <div class="row">
+      <h2 class="centered">Fale Conosco</h2>
+      <hr>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-7 col-sm-12">
+        <strong>Queremos ouvir você!</strong>
+        <p>
+          Tem alguma dúvida, sugestão ou elogio? Sua opinião é muito importante pra gente! Preencha o formulário abaixo e entraremos em contato o mais breve possível.
+        </p>
+
+        <form id="contactForm" method="post" class="form" role="form">
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <input class="form-control" id="name" name="name" placeholder="Seu nome" type="text" required />
+            </div>
+            <div class="col-md-12 form-group">
+              <input class="form-control" id="email" name="email" placeholder="Seu e-mail" type="email" required />
+            </div>
+            <div class="col-md-12 form-group">
+              <textarea class="form-control" id="message" name="message" placeholder="Escreva sua mensagem..." rows="5"></textarea>
+              <button class="btn btn-primary btn-lg" type="submit" data-loading="true" aria-label="Enviar mensagem de contato">Enviar mensagem</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Informações de contato -->
+      <div class="col-md-5 col-sm-12">
+        <div class="contact-info">
+          <i class="fa fa-map-marker fa-2x"></i>
+          <strong>Coffee Shop</strong>
+          <p>
+            R. Aureliano Coutinho, 26<br>
+            Consolação, São Paulo - SP, 01224-020
+          </p>
+
+          <br/>
+
+          <i class="fa fa-envelope-o fa-2x"></i>
+          <p>contato@suacafeteria.com.br</p>
+
+          <br/>
+
+          <i class="fa fa-phone fa-2x"></i>
+          <p>+55 (11) 99999-9999</p>
+        </div>
+
+        <!-- Simple map placeholder -->
+        <div id="mapa" style="width:100%; height:200px; background:#e3e3e3; margin-top: 20px;">
+          <!-- Simple map placeholder -->
+        </div>
+      </div>
+    </div>
+    <!-- row --> 
+  </div>
+</div>
+<!-- container -->
+
+<div id="footerwrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-12 col-xs-12"> <span class="copyright">Copyright &copy; 2015. Design by <a href="http://www.webthemez.com">Webthemez</a></span> </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
+        <ul class="list-inline social-buttons">
+          <li><a href="#"><i class="fa fa-twitter"></i></a> </li>
+          <li><a href="#"><i class="fa fa-facebook"></i></a> </li>
+          <li><a href="#"><i class="fa fa-google-plus"></i></a> </li>
+          <li><a href="#"><i class="fa fa-linkedin"></i></a> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript --> 
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="assets/js/jquery.easing.1.3.js"></script> 
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script> 
+<script type="text/javascript" src="assets/js/custom-scripts.js"></script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Firebase Configuration -->
+<script src="config/firebase-config.js"></script>
+
+<!-- Student Configuration -->
+<script src="config/student-config.js"></script>
+<script src="config/google-cloud-config.js"></script>
+<script src="config/social-config.js"></script>
+<script src="config/config.js"></script>
+
+<!-- Language System -->
+<script src="languages/pt.js"></script>
+<script src="assets/js/language-manager.js"></script>
+
+
+
+<!-- Security and Auth Systems -->
+<script src="assets/js/security-manager.js"></script>
+<script src="assets/js/auth-system.js"></script>
+
+<!-- API Integration -->
+<script src="assets/js/simple-api-manager.js"></script>
+<script src="assets/js/google-cloud-manager.js"></script>
+<script src="assets/js/google-integration.js"></script>
+<script src="assets/js/api-examples.js"></script>
+
+<!-- Menu and Events -->
+<script src="assets/js/menu-system.js"></script>
+<script src="assets/js/events-system.js"></script>
+
+<!-- New Button System -->
+<script src="assets/js/button-manager.js"></script>
+<script src="assets/js/interactions.js"></script>
+
+<!-- Google Analytics -->
+<script src="assets/js/analytics-manager.js"></script>
+
+<!-- Google Analytics -->
+<script src="assets/js/analytics-manager.js"></script>
+
+<!-- Coffee Shop App - Sistema Completo -->
+<script src="assets/js/coffee-shop-app.js"></script>
+
+<!-- Sistema Centralizado de Eventos -->
+<script src="assets/js/events-handler.js"></script>
+
+<!-- Efeitos Cool Modernos -->
+<script src="assets/js/cool-effects.js"></script>
+
+<!-- Menu and cart functionality moved to separate files -->
+</body>
+</html>

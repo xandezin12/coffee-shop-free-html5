@@ -43,12 +43,18 @@ class GoogleAPIsManager {
     }
 
     initMap() {
+        const mapElement = document.getElementById('mapa');
+        if (!mapElement) {
+            console.warn('Map element not found');
+            return;
+        }
+
         const storeLocation = {
             lat: -23.54008690303477,
             lng: -46.652840763335085
         };
 
-        this.map = new google.maps.Map(document.getElementById('mapa'), {
+        this.map = new google.maps.Map(mapElement, {
             zoom: 15,
             center: storeLocation,
             styles: [
@@ -144,10 +150,11 @@ class GoogleAPIsManager {
     initPlacesAPI() {
         if (this.map) {
             const service = new google.maps.places.PlacesService(this.map);
+            const storeLocation = { lat: -23.54008690303477, lng: -46.652840763335085 };
             
             // Search for nearby coffee shops
             service.nearbySearch({
-                location: { lat: -23.54008690303477, lng: -46.652840763335085 },
+                location: storeLocation,
                 radius: 1000,
                 type: ['cafe']
             }, (results, status) => {
@@ -289,18 +296,27 @@ class GoogleAPIsManager {
 
     // 8. Google Calendar API - Event Booking
     initCalendarAPI() {
-        // Load Google Calendar API for event scheduling
-        const script = document.createElement('script');
-        script.src = 'https://apis.google.com/js/api.js';
-        script.onload = () => {
-            gapi.load('client', () => {
-                gapi.client.init({
-                    apiKey: this.config.mapsApiKey,
-                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
+        try {
+            // Load Google Calendar API for event scheduling
+            const script = document.createElement('script');
+            script.src = 'https://apis.google.com/js/api.js';
+            script.onload = () => {
+                gapi.load('client', () => {
+                    gapi.client.init({
+                        apiKey: this.config.calendarApiKey || this.config.mapsApiKey,
+                        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
+                    }).catch(error => {
+                        console.error('Calendar API initialization failed:', error);
+                    });
                 });
-            });
-        };
-        document.head.appendChild(script);
+            };
+            script.onerror = () => {
+                console.error('Failed to load Google Calendar API script');
+            };
+            document.head.appendChild(script);
+        } catch (error) {
+            console.error('Calendar API setup failed:', error);
+        }
     }
 
     // Utility Methods

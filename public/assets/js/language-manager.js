@@ -14,14 +14,6 @@ class LanguageManager {
     init() {
         this.loadLanguageFromStorage();
         this.bindEvents();
-        // Delay language selector creation to ensure DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                this.createLanguageSelector();
-            });
-        } else {
-            this.createLanguageSelector();
-        }
     }
 
     loadLanguageFromStorage() {
@@ -43,82 +35,11 @@ class LanguageManager {
         }
     }
 
-    createLanguageSelector() {
-        const navbar = document.querySelector('.navbar-nav');
-        if (!navbar) return;
 
-        const languageSelector = document.createElement('li');
-        languageSelector.className = 'language-selector';
-        languageSelector.innerHTML = `
-            <div class="language-dropdown">
-                <button class="language-btn" onclick="languageManager.toggleLanguageMenu()">
-                    🌐 ${this.currentLanguage.toUpperCase()}
-                </button>
-                <div class="language-menu" id="languageMenu" style="display: none;">
-                    <a href="#" onclick="languageManager.switchLanguage('pt')">🇧🇷 Português</a>
-                    <a href="#" onclick="languageManager.switchLanguage('en')">🇺🇸 English</a>
-                    <a href="#" onclick="languageManager.switchLanguage('es')">🇪🇸 Español</a>
-                    <a href="#" onclick="languageManager.switchLanguage('fr')">🇫🇷 Français</a>
-                </div>
-            </div>
-        `;
 
-        navbar.insertBefore(languageSelector, navbar.lastElementChild);
-        this.addLanguageSelectorStyles();
-    }
 
-    addLanguageSelectorStyles() {
-        const style = document.createElement('style');
-        style.textContent = `
-            .language-selector {
-                position: relative;
-            }
-            .language-btn {
-                background: none;
-                border: none;
-                color: white;
-                cursor: pointer;
-                padding: 15px 10px;
-                font-size: 14px;
-            }
-            .language-btn:hover {
-                color: #E89A2F;
-            }
-            .language-menu {
-                position: absolute;
-                top: 100%;
-                right: 0;
-                background: white;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                z-index: 1000;
-                min-width: 150px;
-            }
-            .language-menu a {
-                display: block;
-                padding: 10px 15px;
-                color: #333;
-                text-decoration: none;
-                border-bottom: 1px solid #eee;
-            }
-            .language-menu a:hover {
-                background: #f5f5f5;
-                color: #E89A2F;
-            }
-            .language-menu a:last-child {
-                border-bottom: none;
-            }
-        `;
-        document.head.appendChild(style);
-    }
 
-    toggleLanguageMenu() {
-        const menu = document.getElementById('languageMenu');
-        if (menu) {
-            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-        }
-    }
+
 
     bindEvents() {
         // Close language menu when clicking outside

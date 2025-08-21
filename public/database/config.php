@@ -3,10 +3,17 @@ class DatabaseException extends Exception {}
 
 // Secure environment loader
 function loadEnv($path) {
-    // Validate and sanitize path
+    // Validate and sanitize path to prevent path traversal attacks
+    $sanitizedPath = basename($path);
+    $allowedPaths = ['.env', '.env.local', '.env.production'];
+    
+    if (!in_array($sanitizedPath, $allowedPaths)) {
+        throw new DatabaseException("Invalid configuration file");
+    }
+    
     $realPath = realpath($path);
     if (!$realPath || !file_exists($realPath)) {
-        error_log("Environment file not found: $path");
+        error_log("Environment file not found: $sanitizedPath");
         throw new DatabaseException("Configuration file missing");
     }
     
